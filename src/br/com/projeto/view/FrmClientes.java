@@ -9,6 +9,7 @@ import br.com.projeto.dao.ClientesDAO;
 import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Utilitarios;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -141,6 +142,7 @@ public class FrmClientes extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel2.setText("Código:");
 
+        txtId.setEditable(false);
         txtId.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
@@ -225,6 +227,11 @@ public class FrmClientes extends javax.swing.JFrame {
         ftxtCpf.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel16.setText("Telefone:");
@@ -597,8 +604,7 @@ public class FrmClientes extends javax.swing.JFrame {
                 clientes.getCidade(),
                 clientes.getUf()
             });
-        }
-        
+        }        
     }//GEN-LAST:event_btnPesquisarTabelaActionPerformed
 
     private void txtNomeTabelaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeTabelaKeyPressed
@@ -632,6 +638,34 @@ public class FrmClientes extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_txtNomeTabelaKeyPressed
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // TODO add your handling code here:
+        String nome = "%"+txtNome.getText()+"%";
+        Clientes cli = new Clientes();
+        ClientesDAO dao = new ClientesDAO();
+        
+        cli = dao.buscaPorNome(nome);
+        
+        if(cli.getNome() != null){
+            txtId.setText(String.valueOf(cli.getId()));
+            txtNome.setText(cli.getNome());
+            txtRg.setText(cli.getRg());
+            ftxtCpf.setText(cli.getCpf());
+            txtEmail.setText(cli.getEmail());
+            ftxtTelefone.setText(cli.getTelefone());
+            ftxtCelular.setText(cli.getCelular());
+            ftxtCep.setText(cli.getCep());
+            txtEndereco.setText(cli.getEndereco());
+            txtNum.setText(String.valueOf(cli.getNumero()));
+            txtComplemento.setText(cli.getComplemento());
+            txtBairro.setText(cli.getBairro());
+            txtCidade.setText(cli.getCidade());
+            cbUf.setSelectedItem(cli.getUf());        
+        }else{
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /**
      * @param args the command line arguments
